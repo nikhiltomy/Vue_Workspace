@@ -12,35 +12,17 @@ function validateForm() {
         return false;
     }
     if (!/^\d{10}$/g.test(document.myForm.phone.value)) {
-        document.myForm.name.focus();
+        document.myForm.phone.focus();
         document.getElementById('invphone').innerHTML="Enter a valid 10 digit phone number";
         return false;
     }
 }
 
-// const xhl = new XMLHttpRequest();
-// xhl.open('post','https://httpbin.org/post')
-
-
-// const form = {
-//     name:document.getElementById('name'),
-//     age:document.getElementById('age'),
-//     gender:document.getElementById('gender'),
-//     email:document.getElementById('email'),
-//     phone:document.getElementById('phone'),
-//     subject:document.getElementById('subject'),
-//     submit:document.getElementById('submit')
-// }
-
-// console.log(form);
-
-
 const contactForm = document.getElementById("myForm");
 
 contactForm.addEventListener("submit", function (event) {
 let valid_status=validateForm();
-    event.preventDefault();
-
+    event.preventDefault(); 
     var request = new XMLHttpRequest();
     var url = "https://httpbin.org/post";
     request.open("POST", url, true);
