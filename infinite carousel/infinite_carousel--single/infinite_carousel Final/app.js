@@ -44,7 +44,7 @@ slide.addEventListener('transitionend',()=>{
     
 //Button Events
 nextBtn.addEventListener('click',()=>{
-    slides = document.querySelector('.item');
+    slides = document.querySelectorAll('.item');
     if(index >= slides.length-1) return;
     index ++;
     slide.style.transition ='.5s';
