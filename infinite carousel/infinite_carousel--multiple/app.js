@@ -1,24 +1,33 @@
 
 (function () {
-    var carouselContainer = document.querySelectorAll('.carousel-container');
+    let carouselContainer = document.querySelectorAll('.carousel-container');
+    console.log(carouselContainer);
     [].forEach.call(carouselContainer, function (carousel) {
+        console.log(carousel);
         carouselize(carousel);
     });
 })();
 
+// (function () {
+//     var carouselContainer = document.querySelectorAll('.carousel-container');
+//     carouselContainer.forEach(function(carousel) {
+//         carouselize(carousel);
+//     });
+// })();
 
 function carouselize(carousel) {
 
-    var slide = carousel.querySelector('.carousel-slider');
-    var slides = carousel.querySelectorAll('.item');
-    var index = 1;
-    var nextBtn = carousel.querySelector('.nextBtn');
-    var prevBtn = carousel.querySelector('.prevBtn');
+    console.log(carousel);
+    let slide = carousel.querySelector('.carousel-slider');
+    let slides = carousel.querySelectorAll('.item');
+    let index = 1;
+    let nextBtn = carousel.querySelector('.nextBtn');
+    let prevBtn = carousel.querySelector('.prevBtn');
 
 
     //Clone
-    var firstClone = slides[0].cloneNode(true);
-    var lastClone = slides[slides.length - 1].cloneNode(true);
+    let firstClone = slides[0].cloneNode(true);
+    let lastClone = slides[slides.length - 1].cloneNode(true);
 
     firstClone.id = 'firstClone';
     lastClone.id = 'lastClone';
@@ -27,7 +36,7 @@ function carouselize(carousel) {
     slide.prepend(lastClone);
 
 
-    var slideWidth = 100;
+    let slideWidth = 100;
     slide.style.transform = `translateX(${-slideWidth * index}%)`;
     console.log(slide.style.transform = `translateX(${-slideWidth * index}%)`)
 
@@ -62,7 +71,9 @@ function carouselize(carousel) {
         slide.style.transform = `translateX(${-slideWidth * index}%)`;
 
     });
-}
+};
+
+
 
 
 
