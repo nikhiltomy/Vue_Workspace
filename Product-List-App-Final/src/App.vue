@@ -1,8 +1,8 @@
 <template>
-  <the-search @filter-product="setQuery" v-show="enableFilter == false"></the-search>
-  <the-filter @price-filter="updateFilter" @clear-filter="this.enableFilter = false"></the-filter>
+  <the-search @filter-product="setQuery"></the-search>
+  <the-filter @price-filter="updateFilter" @clear-filter="clear"></the-filter>
   <!-- <card-container :products="enableFilter ? filterProducts  : resultQuery" :isLoading="isLoading"></card-container> -->
-   <card-container :products="enableFilter ? filterProducts  : resultQuery" :isLoading="isLoading"></card-container>
+   <card-container :products="resultQuery" :isLoading="isLoading"></card-container>
   <div class="loading">
   <h2 v-if="isLoading == true">Loading...</h2>
   </div>
@@ -20,6 +20,7 @@ export default {
   data() {
     return {
       products: [],
+      duplicateProducts:[],
       filterProducts:[],
       isLoading: false,
       searchQuery: null,
@@ -30,18 +31,22 @@ export default {
     setQuery(inputText) {
       this.searchQuery = inputText;
     },
-    
+    clear(){
+    this.enableFilter = false;
+    this.products = this.duplicateProducts;
+    },
     updateFilter(min, max) {
       this.filterProducts=[];
       this.enableFilter = true;
       console.log(min + " " + max);
-      this.resultQuery.filter((product) => {
+      this.products.filter((product) => {
       if (product.price >= min && product.price <= max) {
-        return this.filterProducts.push(product)
+        this.filterProducts.push(product)
+        this.products = this.filterProducts;
       }
       console.log(this.filterProducts);
       });
-       
+     this.resultQuery = this.filterProducts;  
     },
   },
   computed: {
@@ -57,9 +62,6 @@ export default {
         return this.products;
       }
     },
-    bothFilter(){
-      return this.product.concat(this.filterProducts);
-    }
   },
   mounted() {
     this.isLoading = true;
@@ -76,6 +78,7 @@ export default {
           this.products.push(item);
         });
       });
+  this.duplicateProducts = this.products;
   },
 };
 </script>

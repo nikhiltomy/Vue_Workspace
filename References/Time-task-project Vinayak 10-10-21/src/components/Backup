@@ -1,0 +1,141 @@
+<template>
+  <h3>Add Items</h3>
+
+<!-- Items can be added here-->
+
+  <div v-if="!isEditing">
+    <input type="text" placeholder="Add items here..." class="input" v-model="todo" />
+    <button class="btn" value="add" @click="storeToDo">Add</button>
+  </div>
+  <div v-else>
+      <input type="text" class="input" v-model="todo" />
+     <button class="btn" value="Update" @click="updateToDo" >Update</button>
+  </div>
+
+      <!-- The To do list goes here-->
+
+  <div class="list">
+
+  <h3 class="mt-5">Todo</h3>
+<hr class="mb-5">
+  <div class="row" v-for="(todo, index) in todos" :key="todo.id">
+  <div class="col-6"> 
+       <input type="checkbox"  :value="todo" v-model="completed" @click="addToCompleted(index,todo)"/> 
+       <span class="ms-3 fs-5">{{ todo }}</span>
+    </div>
+    <div class="col-6"><button class="btn my-2 ms-start" @click="todoEdit(index, todo)" @keyup.esc="cancel">Edit</button>
+    <button class="btn" @click="todoDelete(index, todo)">Delete</button>
+  </div></div>
+
+
+<!-- The Completed list goes here-->
+
+  <h4 >Completed</h4>
+  <hr class="mb-5">
+  
+
+  <div class="row" v-for="com in completed" :key="com.comId">
+      <div class="col-6">
+    
+    <input type="checkbox"  checked/>
+    <span class=" ms-3 fs-5 finished">{{ com }}</span>
+    </div>
+    <div class="col-6">    <button class="btn my-2" @click="completeEdit(index, com)" >Edit</button>
+    <button class="btn" @click="completeDelete(index, com)">Delete</button></div>
+    
+
+
+
+  </div>
+</div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      selectedIndex: null,
+      isEditing: false,    
+      id: 0,
+      comId: 0,
+      todos: [],
+      todo: '',
+      completed: [],
+      todoCache : '',
+    };
+  },
+  methods: {
+    storeToDo() {
+      if (this.todo.trim().length == 0) {
+        return;
+      }
+      this.todos.push(this.todo);
+      this.todo = '';
+      this.id += 1;
+    },
+    todoEdit(index, todo) {
+      this.todoCache = todo;
+      this.todo = todo;
+      this.isEditing = true;
+      this.selectedIndex = index;
+    },
+     completeEdit(index, com) { 
+      this.todoCache = com;           
+      this.todo = com;  
+      this.selectedIndex = index;          
+      this.completed.splice(index,1);
+    },
+    
+    updateToDo() {
+      if (this.todo.trim().length == 0) {
+          this.isEditing = false;
+        return;
+      }
+      this.todos.splice(this.selectedIndex, 1, this.todo);
+      this.isEditing = false;      
+      this.todo = '';
+    },
+    todoDelete(index) {
+      this.todos.splice(index, 1);
+    },
+
+   
+completeDelete(index) {
+    
+      this.completed.splice(index, 1);
+    },    
+
+    addToCompleted (index,com) {   
+        this.completed.splice(1, 0, com);        
+        this.todos.splice(index,1);                
+    },
+
+    cancel() {        
+        this.isEditing = false;
+        this.todo = '';        
+    },
+  },
+};
+</script>
+
+<style scoped>
+
+.btn {
+  margin-left: 10px;
+  background-color: blueviolet;
+  border-radius: 5px;
+  color: white;
+  margin-left: 10px;
+  width: 70px;
+}
+.input {
+  width: 200px;
+  height: 30px;
+}
+
+.finished {
+  text-decoration: line-through;
+  font-style: italic;  
+  color: grey;
+}
+</style>
