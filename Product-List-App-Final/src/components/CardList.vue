@@ -31,7 +31,7 @@
   justify-content: center;
 }
 img{
- width:400px;
- height: 400px;
+ width:500px;
+ height: 500px;
 }
 </style>
